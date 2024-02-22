@@ -70,4 +70,7 @@ dependencies {
 
     implementation ("androidx.camera:camera-view:${cameraxVersion}")
     implementation ("androidx.camera:camera-extensions:${cameraxVersion}")
+
+    // coil
+    implementation ("io.coil-kt:coil-compose:2.1.0")
 }
