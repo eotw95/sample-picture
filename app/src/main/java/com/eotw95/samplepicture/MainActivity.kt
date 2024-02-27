@@ -5,17 +5,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.eotw95.samplepicture.ui.theme.SamplePictureTheme
 
@@ -43,7 +48,20 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if (imageUri != null) {
-                        Image(painter = rememberAsyncImagePainter(model = imageUri), contentDescription = null)
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 150.dp),
+                            content = {
+                                items(3) {
+                                    Log.d("MainActivity", "imageUri=$imageUri")
+                                    Image(
+                                        painter = rememberAsyncImagePainter(model = imageUri),
+                                        contentDescription = null,
+                                        // 画像のサイズを指定しないと、大きすぎて表示できない
+                                        modifier = Modifier.size(width = 150.dp, height = 150.dp)
+                                    )
+                                }
+                            }
+                        )
                     }
                 }
             }
