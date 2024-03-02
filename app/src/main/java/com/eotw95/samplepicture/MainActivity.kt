@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,13 +33,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 //        dispatchTakePictureIntent()
 
-        // 標準ギャラリーから画像を選択する
+        /**
+         * 標準ギャラリーから画像を選択する
+         */
         var imageUri by mutableStateOf<Uri?>(null)
-        val launcher = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            // Todo: handle image uri
-            imageUri = it
+//        val launcher = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+//            // Todo: handle image uri
+//            imageUri = it
+//        }
+//        launcher.launch(arrayOf("image/*"))
+
+        /**
+         * 写真選択ツールから画像を選択する
+         */
+        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { tmpUri ->
+            tmpUri?.let {
+                imageUri = it
+            }
         }
-        launcher.launch(arrayOf("image/*"))
+        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
         setContent {
             SamplePictureTheme {
